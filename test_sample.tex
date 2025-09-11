@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Enhanced LaTeX to JSON Converter Test}
+\author{Jordan Blake \\ Principal Software Engineer}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+This is a comprehensive test document for the enhanced LaTeX to JSON converter. 
+It contains various LaTeX elements including sections, equations, lists, tables, 
+and figures to validate the comprehensive parsing capabilities.
+\end{abstract}
+
+\section{Introduction}
+This document demonstrates the comprehensive extraction capabilities of the 
+enhanced LaTeX to JSON converter. The converter can parse every element 
+of a LaTeX document into structured JSON format.
+
+\subsection{Key Features}
+The enhanced converter supports:
+\begin{itemize}
+\item Comprehensive section extraction
+\item Mathematical equations and expressions
+\item Tables and figures with captions
+\item Lists and enumerations
+\item Title and author information
+\end{itemize}
+
+\subsubsection{Advanced Capabilities}
+Advanced features include hierarchical parsing and metadata extraction.
+
+\section{Mathematical Content}
+
+Inline math: $E = mc^2$ represents the mass-energy equivalence.
+
+Display equation:
+\begin{equation}
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+\end{equation}
+
+\section{Lists and Enumerations}
+
+\subsection{Itemized List}
+\begin{itemize}
+\item First bullet point
+\item Second bullet point with \textbf{bold text}
+\item Third point with $math = formula$
+\end{itemize}
+
+\subsection{Enumerated List}
+\begin{enumerate}
+\item First numbered item
+\item Second numbered item
+\item Third numbered item
+\end{enumerate}
+
+\section{Tables}
+
+\begin{table}[h]
+\centering
+\caption{Sample Data Table}
+\label{tab:sample}
+\begin{tabular}{|l|c|r|}
+\hline
+Column 1 & Column 2 & Column 3 \\
+\hline
+Data A & 123 & 45.6 \\
+Data B & 789 & 12.3 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Figures}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{sample_figure.png}
+\caption{Sample figure demonstrating graphics inclusion}
+\label{fig:sample}
+\end{figure}
+
+\section{Conclusion}
+This test document validates the comprehensive parsing capabilities 
+of the enhanced LaTeX to JSON converter.
+
+\end{document}

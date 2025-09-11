@@ -1,0 +1,67 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+
+\title{A Simple Academic Paper}
+\author{Test Author \\ University of Testing}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This is a simple academic paper for testing the enhanced LaTeX to JSON converter.
+It contains various elements including sections, equations, lists, and references.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+This paper demonstrates the capabilities of our enhanced LaTeX parser.
+The fundamental equation of relativity is $E = mc^2$.
+
+\subsection{Problem Statement}
+
+We need to parse every element of a LaTeX document into structured JSON format.
+
+\section{Methodology}
+
+Our approach involves several steps:
+\begin{enumerate}
+\item Tokenize the LaTeX source
+\item Parse elements hierarchically  
+\item Generate structured JSON output
+\end{enumerate}
+
+\section{Mathematical Formulation}
+
+The loss function is defined as:
+\begin{equation}
+\label{eq:loss}
+L(\theta) = \frac{1}{n} \sum_{i=1}^{n} \ell(f_\theta(x_i), y_i)
+\end{equation}
+
+For optimization, we use gradient descent:
+\begin{align}
+\theta_{t+1} &= \theta_t - \alpha \nabla L(\theta_t) \\
+&= \theta_t - \alpha \frac{1}{n} \sum_{i=1}^{n} \nabla \ell(f_\theta(x_i), y_i)
+\end{align}
+
+\section{Results}
+
+Key findings include:
+\begin{itemize}
+\item Comprehensive element extraction
+\item Hierarchical structure preservation
+\item Robust error handling
+\item Extensible hook system
+\end{itemize}
+
+\section{Conclusion}
+
+We have successfully implemented a comprehensive LaTeX to JSON converter
+that extracts every element with high fidelity. Future work includes
+adding support for tables and figures.
+
+\end{document}

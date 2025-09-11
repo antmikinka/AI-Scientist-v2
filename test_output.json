@@ -1,0 +1,124 @@
+{
+  "document": [
+    {
+      "type": "title",
+      "content": "Enhanced LaTeX to JSON Converter Test",
+      "attributes": {
+        "command": "\\title",
+        "line_number": 6
+      }
+    },
+    {
+      "type": "author",
+      "content": "Jordan Blake \\\\ Principal Software Engineer",
+      "attributes": {
+        "command": "\\author",
+        "line_number": 7
+      }
+    },
+    {
+      "type": "date",
+      "content": "\\today",
+      "attributes": {
+        "command": "\\date",
+        "line_number": 8
+      }
+    },
+    {
+      "type": "maketitle",
+      "content": "",
+      "attributes": {
+        "command": "\\maketitle",
+        "line_number": 12
+      }
+    },
+    {
+      "type": "table_of_contents",
+      "content": "\\tableofcontents",
+      "attributes": {
+        "command": "\\tableofcontents",
+        "toc_type": "tableofcontents",
+        "line_number": 13
+      }
+    },
+    {
+      "type": "abstract",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": "This is a comprehensive test document for the enhanced LaTeX to JSON converter. It contains various LaTeX elements including sections, equations, lists, tables, and figures to validate the comprehensive parsing capabilities."
+        }
+      ],
+      "attributes": {
+        "word_count": 31
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Introduction",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 21
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Mathematical Content",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 39
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Lists and Enumerations",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 48
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Tables",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 64
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Figures",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 80
+      }
+    },
+    {
+      "type": "section",
+      "content": [],
+      "attributes": {
+        "title": "Conclusion",
+        "level": 1,
+        "command": "\\section",
+        "line_number": 89
+      }
+    }
+  ],
+  "metadata": {
+    "parser_version": "2.0.0",
+    "document_type": "article",
+    "total_elements": 12,
+    "processing_time": 0.0005881786346435547,
+    "has_errors": false
+  }
+}
