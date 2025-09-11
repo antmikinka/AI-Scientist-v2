@@ -47,10 +47,10 @@ This system autonomously generates hypotheses, runs experiments, analyzes data, 
 
 ```bash
 # 🤖 Enhanced Interactive Launcher (Recommended)
-python launch_enhanced_scientist.py
+python scripts/launch_enhanced_scientist.py
 
 # ⚡ OpenRouter Direct Access  
-python launch_with_openrouter.py --ideas ideas.json
+python scripts/launch_with_openrouter.py --ideas ideas.json
 
 # 🔬 Original Proven Workflow (Legacy)
 python archive/original_launchers/launch_scientist_bfts.py --load_ideas ideas.json
@@ -112,7 +112,7 @@ pip install -r requirements.txt
 pip install -r requirements_openrouter.txt
 
 # Interactive setup (recommended for new users)
-python launch_enhanced_scientist.py --setup
+python scripts/launch_enhanced_scientist.py --setup
 ```
 
 Installation usually takes no more than one hour.
@@ -233,7 +233,7 @@ python launch_enhanced_scientist.py --ideas "ai_scientist/ideas/my_research_topi
 ### ⚡ OpenRouter Direct Workflow
 
 ```bash
-python launch_with_openrouter.py \
+python scripts/launch_with_openrouter.py \
   --ideas "ai_scientist/ideas/my_research_topic.json" \
   --model_ideation gpt-4o \
   --model_experiment claude-3-5-sonnet \
@@ -383,7 +383,7 @@ python launch_enhanced_scientist.py --setup
 **3. Usage Examples**
 ```bash
 # Use specific models for different stages
-python launch_with_openrouter.py \
+python scripts/launch_with_openrouter.py \
   --ideas ideas.json \
   --model_experiment anthropic/claude-3.5-sonnet \
   --model_writeup openai/gpt-4o \
@@ -1093,7 +1093,7 @@ python launch_enhanced_scientist.py --ideas ideas.json
 **Step 3: Add OpenRouter (Optional)**
 ```bash
 export OPENROUTER_API_KEY="your_key"
-python launch_with_openrouter.py --ideas ideas.json
+python scripts/launch_with_openrouter.py --ideas ideas.json
 ```
 
 **Step 4: Enable Advanced Features (Optional)**
