@@ -1,0 +1,120 @@
+# Enhanced AI-Scientist-v2 Configuration
+# Extends the original bfts_config.yaml with advanced features
+
+# Base configuration inheritance
+extends: "../../bfts_config.yaml"
+
+# Theory Evolution System
+theory_evolution:
+  enabled: true
+  update_frequency: "per_experiment"  # Options: per_experiment, per_stage, manual
+  correlation_threshold: 0.75
+  version_retention: 10
+  auto_update: true
+  storage_backend: "vector_store"
+  embedding_model: "google/embeddinggemma-300M"
+
+# Agent Orchestration Configuration
+orchestration:
+  supervisor_agent:
+    model: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+    temp: 0.7
+    max_tokens: 8192
+    decision_threshold: 0.8
+    coordination_mode: "hierarchical"  # Options: hierarchical, collaborative, autonomous
+    
+  specialist_agents:
+    ideation:
+      model: "gpt-4o-2024-11-20"
+      temp: 1.0
+      max_tokens: 8192
+      creativity_weight: 0.9
+      profile: "creative_researcher"
+      enabled: true
+    
+    experiment:
+      model: "anthropic.claude-3-5-sonnet-20241022-v2:0"
+      temp: 0.8
+      max_tokens: 12000
+      precision_weight: 0.95
+      profile: "methodical_experimenter"
+      enabled: true
+    
+    analysis:
+      model: "o1-preview-2024-09-12"
+      temp: 0.5
+      max_tokens: 16000
+      reasoning_depth: "deep"
+      profile: "analytical_thinker"
+      enabled: true
+    
+    review:
+      model: "gpt-4o-2024-11-20"
+      temp: 0.6
+      max_tokens: 8192
+      critical_thinking: 0.9
+      profile: "critical_reviewer"
+      enabled: true
+
+# Knowledge Management System
+knowledge_management:
+  storage_backend: "vector_store"
+  correlation_engine: "embedding_similarity"
+  rejection_logging: true
+  learning_loop_enabled: true
+  max_knowledge_items: 10000
+  correlation_cache_size: 1000
+  update_frequency: "real_time"
+
+# Reasoning-based RAG Engine
+rag_engine:
+  pageindex:
+    enabled: true
+    reasoning_mode: true
+    similarity_fallback: false
+    max_context_length: 8192
+  
+  leann:
+    model: "google/gemma-3-4b-it"
+    reasoning_depth: 3
+    context_window: 8192
+    temperature: 0.7
+    enabled: true
+  
+  embedding_gemma:
+    model: "google/embeddinggemma-300M"
+    embedding_dimension: 768
+    batch_size: 32
+    device: "auto"  # auto, cpu, cuda
+    cache_embeddings: true
+
+# Integration Settings
+integration:
+  legacy_compatibility: true
+  migration_mode: "gradual"  # Options: gradual, immediate, hybrid
+  fallback_enabled: true
+  parallel_execution: true
+  max_parallel_agents: 4
+
+# Enhanced Debugging and Monitoring
+monitoring:
+  track_agent_performance: true
+  log_theory_updates: true
+  correlation_analytics: true
+  export_metrics: true
+  metrics_file: "enhanced_metrics.json"
+
+# Multi-modal Data Processing
+multimodal:
+  enabled: true
+  supported_formats: ["text", "images", "tables", "code"]
+  max_file_size: "50MB"
+  processing_timeout: 300
+
+# Workflow Orchestration
+workflows:
+  parallel_stages: true
+  adaptive_scheduling: true
+  resource_management: true
+  checkpoint_frequency: "per_stage"
+  recovery_enabled: true

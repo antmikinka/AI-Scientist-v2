@@ -1,0 +1,57 @@
+# OpenRouter Integration Dependencies for AI-Scientist-v2
+# Install with: pip install -r requirements_openrouter.txt
+
+# Core OpenRouter and API dependencies
+openai>=1.40.0
+anthropic>=0.34.0
+
+# Enhanced CLI interface (optional but recommended)
+rich>=13.0.0
+click>=8.1.0
+typer>=0.12.0
+
+# Configuration management
+pydantic>=2.5.0
+PyYAML>=6.0
+
+# RAG System dependencies
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+scikit-learn>=1.3.0
+
+# Document processing
+PyPDF2>=3.0.0
+python-docx>=1.1.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+
+# Vector operations and embeddings
+numpy>=1.24.0
+faiss-cpu>=1.8.0  # Alternative to ChromaDB
+
+# Async support
+aiohttp>=3.9.0
+aiofiles>=23.0.0
+
+# Data validation and serialization
+pydantic-settings>=2.1.0
+marshmallow>=3.20.0
+
+# Enhanced logging and monitoring
+structlog>=23.0.0
+loguru>=0.7.0
+
+# Optional: Additional embedding models
+torch>=2.0.0  # For sentence-transformers
+transformers>=4.35.0  # For custom embedding models
+
+# Optional: Alternative vector stores
+pinecone-client>=3.0.0
+weaviate-client>=4.4.0
+qdrant-client>=1.7.0
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+mypy>=1.7.0

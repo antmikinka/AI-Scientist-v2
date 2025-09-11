@@ -1,0 +1,86 @@
+# Theory Evolution Configuration
+# Settings for the Theory Evolution Agent and knowledge management
+
+theory_storage:
+  backend: "vector_store"
+  index_type: "hierarchical"  # Options: flat, hierarchical, graph
+  embedding_model: "google/embeddinggemma-300M"
+  dimension: 768
+  storage_path: "data/theory_store"
+  backup_enabled: true
+  backup_frequency: "daily"
+
+correlation_engine:
+  similarity_threshold: 0.75
+  correlation_methods:
+    - "semantic_similarity"
+    - "conceptual_overlap"
+    - "logical_consistency"
+    - "causal_relationship"
+  
+  weighting:
+    semantic_similarity: 0.4
+    conceptual_overlap: 0.3
+    logical_consistency: 0.2
+    causal_relationship: 0.1
+
+versioning:
+  enabled: true
+  max_versions: 10
+  auto_commit: true
+  commit_triggers:
+    - "major_update"
+    - "correlation_threshold"
+    - "manual_request"
+  
+  version_metadata:
+    timestamp: true
+    experiment_id: true
+    correlation_scores: true
+    update_rationale: true
+
+update_strategies:
+  integration:
+    mode: "conservative"  # Options: conservative, aggressive, balanced
+    confidence_threshold: 0.8
+    require_consensus: true
+    max_changes_per_update: 3
+  
+  rejection:
+    log_detailed_reasons: true
+    track_rejection_patterns: true
+    suggest_alternatives: true
+    max_rejection_cache: 1000
+
+quality_control:
+  consistency_checks: true
+  contradiction_detection: true
+  coherence_validation: true
+  expert_review_threshold: 0.9
+
+theory_structure:
+  hierarchical_organization: true
+  topic_clustering: true
+  relationship_mapping: true
+  concept_taxonomy: true
+  
+  sections:
+    - "core_principles"
+    - "supporting_evidence"
+    - "methodological_frameworks"
+    - "empirical_findings"
+    - "theoretical_implications"
+    - "future_directions"
+
+interaction_protocols:
+  user_approval_required: true
+  approval_timeout: 3600  # seconds
+  auto_approve_low_impact: false
+  notification_channels: ["log", "email"]
+
+performance_monitoring:
+  track_update_frequency: true
+  measure_theory_coherence: true
+  monitor_correlation_accuracy: true
+  log_decision_rationales: true
+  export_analytics: true

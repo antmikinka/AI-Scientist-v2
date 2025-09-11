@@ -27,3 +27,21 @@ jsonschema
 omegaconf
 botocore
 boto3
+# Enhanced AI-Scientist-v2 Dependencies
+torch
+sentence-transformers
+scikit-learn
+faiss-cpu
+aiofiles
+pydantic
+python-dateutil
+networkx
+psutil
+# OpenRouter Integration Dependencies
+aiohttp
+chromadb
+pyyaml
+beautifulsoup4
+requests
+python-docx
+pandas

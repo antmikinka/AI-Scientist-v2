@@ -1,0 +1,157 @@
+# Reasoning-based RAG Configuration
+# Settings for PageIndex, LEANN, and EmbeddingGemma integration
+
+# PageIndex Integration Settings
+pageindex:
+  enabled: true
+  reasoning_mode: true
+  similarity_fallback: false
+  max_context_length: 8192
+  reasoning_depth: 3
+  
+  search_parameters:
+    top_k: 10
+    similarity_threshold: 0.7
+    diversification_factor: 0.3
+    reranking_enabled: true
+  
+  caching:
+    enabled: true
+    cache_size: 1000
+    ttl: 3600  # seconds
+
+# LEANN Reasoning Module
+leann:
+  enabled: true
+  model: "google/gemma-3-4b-it"
+  reasoning_depth: 3
+  context_window: 8192
+  temperature: 0.7
+  max_tokens: 4096
+  
+  reasoning_strategies:
+    - "deductive_reasoning"
+    - "inductive_reasoning" 
+    - "abductive_reasoning"
+    - "analogical_reasoning"
+  
+  graph_settings:
+    max_nodes: 100000
+    pruning_threshold: 0.1
+    recomputation_enabled: true
+    storage_optimization: "csr_format"
+  
+  performance:
+    batch_processing: true
+    parallel_reasoning: true
+    memory_management: "adaptive"
+
+# EmbeddingGemma Configuration
+embedding_gemma:
+  model: "google/embeddinggemma-300M"
+  embedding_dimension: 768
+  batch_size: 32
+  device: "auto"  # auto, cpu, cuda
+  precision: "float16"  # float16, float32
+  
+  prompts:
+    query_prompt: "task: search result | query: "
+    document_prompt: "title: none | text: "
+    classification_prompt: "task: classification | query: "
+    similarity_prompt: "task: sentence similarity | query: "
+  
+  optimization:
+    cache_embeddings: true
+    cache_size: 10000
+    normalize_embeddings: true
+    use_attention_mask: true
+
+# Correlation Engine Settings
+correlation_engine:
+  methods:
+    semantic_correlation:
+      enabled: true
+      weight: 0.4
+      model: "embedding_gemma"
+    
+    logical_correlation:
+      enabled: true
+      weight: 0.3
+      reasoning_model: "leann"
+    
+    contextual_correlation:
+      enabled: true
+      weight: 0.2
+      context_window: 2048
+    
+    temporal_correlation:
+      enabled: true
+      weight: 0.1
+      time_decay_factor: 0.95
+
+# Retrieval Strategies
+retrieval:
+  hybrid_search:
+    enabled: true
+    semantic_weight: 0.7
+    keyword_weight: 0.3
+  
+  multi_stage_retrieval:
+    enabled: true
+    stages:
+      - "broad_search"
+      - "focused_retrieval"
+      - "precision_ranking"
+  
+  adaptive_retrieval:
+    enabled: true
+    query_analysis: true
+    strategy_selection: "automatic"
+
+# Performance Optimization
+optimization:
+  parallel_processing: true
+  memory_mapping: true
+  lazy_loading: true
+  compression_enabled: true
+  
+  resource_limits:
+    max_memory_usage: "8GB"
+    max_cpu_cores: 8
+    timeout_seconds: 300
+
+# Quality Assurance
+quality:
+  retrieval_validation: true
+  relevance_scoring: true
+  diversity_metrics: true
+  consistency_checks: true
+  
+  thresholds:
+    minimum_relevance: 0.6
+    maximum_results: 50
+    diversity_threshold: 0.8
+
+# Integration Points
+integration:
+  knowledge_management:
+    sync_enabled: true
+    bidirectional_updates: true
+    conflict_resolution: "latest_wins"
+  
+  theory_evolution:
+    auto_correlation: true
+    update_triggers: ["new_findings", "theory_updates"]
+    feedback_loop: true
+
+# Monitoring and Analytics
+monitoring:
+  performance_tracking: true
+  query_analytics: true
+  retrieval_metrics: true
+  error_logging: true
+  
+  metrics_export:
+    format: "json"
+    frequency: "hourly"
+    include_embeddings: false
