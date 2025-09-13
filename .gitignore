@@ -167,7 +167,8 @@ cython_debug/
 # VS Code
 .vscode/
 
-# Misc folders
+# Environment variables
+.env
 data/
 *ckpt.pt
 *.zip

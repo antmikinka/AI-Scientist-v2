@@ -510,14 +510,7 @@ def create_client(model: str) -> Tuple[Any, str]:
         )
     elif model == "llama3.1-405b":
         print(f"Using OpenRouter with {model}.")
-        return (
-            openai.OpenAI(
-                api_key=os.environ["OPENROUTER_API_KEY"],
-                base_url="https://openrouter.ai/api/v1",
-            ),
-            "meta-llama/llama-3.1-405b-instruct",
-        )
-    elif 'gemini' in model:
+        return     elif 'gemini' in model:
         print(f"Using Gemini API with {model}.")
         return (
             openai.OpenAI(
