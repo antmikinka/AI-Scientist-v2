@@ -15,6 +15,9 @@ from .client import (
 )
 from .config import (
     OpenRouterConfig,
+    RAGConfig,
+    StageConfig,
+    PipelineStage,
     load_config,
     save_config,
     get_available_models,
@@ -22,21 +25,26 @@ from .config import (
 )
 from .rag_system import RAGSystem
 from .utils import extract_json_between_markers
+from .cli import CLIInterface
 
 __version__ = "1.0.0"
 
 __all__ = [
     "OpenRouterClient",
-    "get_global_client", 
+    "get_global_client",
     "initialize_openrouter",
     "CacheStrategy",
     "ToolCall",
     "ToolDefinition",
     "OpenRouterConfig",
+    "RAGConfig",
+    "StageConfig",
+    "PipelineStage",
     "load_config",
-    "save_config", 
+    "save_config",
     "get_available_models",
     "create_default_config",
     "RAGSystem",
-    "extract_json_between_markers"
+    "extract_json_between_markers",
+    "CLIInterface"
 ]

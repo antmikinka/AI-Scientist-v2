@@ -1,0 +1,53 @@
+custom_sections: {}
+database:
+  echo: false
+  max_overflow: 20
+  pool_size: 10
+  timeout: 30
+  url: sqlite:///ai_scientist.db
+debug: false
+environment: development
+log_level: INFO
+logging:
+  backup_count: 5
+  file_path: null
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  level: INFO
+  max_file_size: 10MB
+  structured_logging: true
+performance:
+  cache_size_mb: 512
+  enable_optimizations: true
+  max_workers: 4
+  memory_limit_gb: 8.0
+  timeout_seconds: 300
+rag:
+  auto_ingest: true
+  cache_ttl: 3600
+  chunk_overlap: 200
+  chunk_size: 1000
+  collection_name: ai_scientist_docs
+  embedding_model: text-embedding-ada-002
+  enable_hybrid_search: false
+  enable_page_index: true
+  enable_semantic_cache: true
+  enabled: true
+  max_file_size: 50MB
+  max_results: 10
+  max_retrieval_docs: 10
+  page_index_max_context: 8192
+  reasoning_depth: 3
+  similarity_threshold: 0.7
+  supported_formats:
+  - pdf
+  - txt
+  - md
+  - docx
+  vector_store: chroma
+security:
+  api_key: null
+  encryption_key: null
+  max_login_attempts: 5
+  rate_limit_requests: 100
+  secret_key: null
+  session_timeout: 3600

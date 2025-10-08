@@ -44,6 +44,9 @@ from bs4 import BeautifulSoup
 import requests
 from urllib.parse import urlparse
 
+# Local imports
+from .config import RAGConfig
+
 # Vector storage and embeddings
 try:
     import chromadb

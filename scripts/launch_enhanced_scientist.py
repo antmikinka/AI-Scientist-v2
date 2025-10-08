@@ -14,7 +14,7 @@ from typing import Dict, Any, Optional, List
 from datetime import datetime
 
 # Add ai_scientist to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'ai_scientist'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 # Import OpenRouter components
 try:

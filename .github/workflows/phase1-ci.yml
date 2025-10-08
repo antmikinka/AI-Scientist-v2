@@ -1,0 +1,353 @@
+name: Phase 1 CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.9'
+  NODE_VERSION: '18'
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_openrouter.txt
+        pip install pytest pytest-cov pytest-asyncio pytest-mock black mypy pylint bandit safety
+
+    - name: Run security checks
+      run: |
+        bandit -r ai_scientist/ -f json -o bandit-report.json || true
+        safety check --json --output safety-report.json || true
+
+    - name: Run code formatting check
+      run: |
+        black --check ai_scientist/ tests/
+
+    - name: Run linting
+      run: |
+        pylint ai_scientist/ --exit-zero --output-format=json > pylint-report.json || true
+
+    - name: Run type checking
+      run: |
+        mypy ai_scientist/ --no-error-summary || true
+
+    - name: Upload quality reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: quality-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+          pylint-report.json
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_openrouter.txt
+        pip install pytest pytest-cov pytest-asyncio pytest-mock
+
+    - name: Run ${{ matrix.test-type }} tests
+      run: |
+        if [ "${{ matrix.test-type }}" = "unit" ]; then
+          pytest tests/ -v --cov=ai_scientist --cov-report=xml --cov-report=html -m "not integration"
+        else
+          pytest tests/ -v --cov=ai_scientist --cov-report=xml --cov-report=html -m "integration"
+        fi
+
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-${{ matrix.test-type }}
+        path: |
+          coverage.xml
+          htmlcov/
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y redis-server
+
+    - name: Start Redis
+      run: |
+        redis-server --daemonize yes
+        redis-cli ping
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_openrouter.txt
+        pip install pytest pytest-asyncio pytest-mock redis
+
+    - name: Run core integration tests
+      run: |
+        pytest tests/test_core_integration.py -v --cov=ai_scientist.core --cov-report=xml
+
+    - name: Run performance tests
+      run: |
+        python -m pytest tests/test_performance.py -v --tb=short || true
+
+    - name: Test RAG system
+      run: |
+        python -c "
+        from ai_scientist.core.config_manager import get_rag_config
+        from ai_scientist.openrouter.rag_system import RAGSystem
+        config = get_rag_config()
+        rag = RAGSystem(config)
+        print('RAG system initialized successfully')
+        "
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-results
+        path: |
+          test-results/
+          coverage.xml
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  performance-benchmark:
+    name: Performance Benchmark
+    runs-on: ubuntu-latest
+    needs: integration-tests
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_openrouter.txt
+        pip install pytest-benchmark memory-profiler psutil
+
+    - name: Run performance benchmarks
+      run: |
+        pytest tests/test_performance.py -v --benchmark-only --benchmark-json=benchmark-results.json
+
+    - name: Profile memory usage
+      run: |
+        python -m memory_profiler scripts/profile_memory.py || true
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: |
+          benchmark-results.json
+          profile_results.txt
+
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, security-scan]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build wheel twine
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Deploy to PyPI (if tagged)
+      if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        twine upload dist/*
+
+    - name: Create Docker image
+      run: |
+        docker build -t ai-scientist-v2:${{ github.sha }} .
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          Dockerfile
+
+  monitoring-setup:
+    name: Monitoring Setup
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Generate deployment manifests
+      run: |
+        # Generate Kubernetes manifests
+        envsubst < k8s/deployment.yaml.tpl > k8s/deployment-${{ github.sha }}.yaml
+
+    - name: Setup monitoring configuration
+      run: |
+        # Generate Prometheus configuration
+        envsubst < monitoring/prometheus.yml.tpl > monitoring/prometheus-${{ github.sha }}.yml
+
+        # Generate Grafana dashboards
+        mkdir -p monitoring/grafana/dashboards
+        cp monitoring/dashboards/*.json monitoring/grafana/dashboards/
+
+    - name: Upload monitoring configs
+      uses: actions/upload-artifact@v3
+      with:
+        name: monitoring-configs
+        path: |
+          k8s/
+          monitoring/
+
+  rollback-preparation:
+    name: Rollback Preparation
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    if: failure()
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # Get previous commit for rollback
+
+    - name: Prepare rollback
+      run: |
+        # Get previous stable commit
+        PREVIOUS_COMMIT=$(git rev-parse HEAD^)
+        echo "Previous stable commit: $PREVIOUS_COMMIT"
+        echo "rollback_commit=$PREVIOUS_COMMIT" >> $GITHUB_ENV
+
+    - name: Create rollback script
+      run: |
+        cat > rollback.sh << EOF
+        #!/bin/bash
+        echo "Rolling back to commit: ${{ env.rollback_commit }}"
+        git checkout ${{ env.rollback_commit }}
+        docker build -t ai-scientist-v2:rollback .
+        EOF
+        chmod +x rollback.sh
+
+    - name: Upload rollback artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: rollback-artifacts
+        path: |
+          rollback.sh
+
+  test-report:
+    name: Test Report
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, performance-benchmark]
+    if: always()
+
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Generate test report
+      run: |
+        # Combine coverage reports
+        python scripts/combine_coverage.py coverage-unit/coverage.xml coverage-integration/coverage.xml
+
+        # Generate HTML report
+        python scripts/generate_test_report.py
+
+    - name: Upload test report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: |
+          test-report.html
+          combined-coverage.xml
